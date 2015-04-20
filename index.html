@@ -22,6 +22,70 @@
 			<link rel="stylesheet" href="css/style-wide.css" />
 		</noscript>
 		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
+		<script>
+	    $(document).ready(function () {
+
+	        // enable the map pointer events only on click;
+
+	        $('#map_canvas1').addClass('scrolloff'); // set the pointer events to none on doc ready
+	        $('.map').on('click', function () {
+	            $('#map_canvas1').removeClass('scrolloff'); // set the pointer events true on click
+	        });
+
+	        // disable pointer events when the mouse leave the canvas area;
+
+	        $("#map_canvas1").mouseleave(function () {
+	           $('#map_canvas1').addClass('scrolloff'); // set the pointer events to none when mouse leaves the map area
+	        });
+
+		    var text = ["Do you know your city's noise laws?", "How much noise is allowed?", "Is government protecting you from noise?", "Is city noise affecting your life?"];
+		    var counter = 0;
+		    var elem = document.getElementById("changeText");
+		    //setInterval(change, 5500);
+		    function fadeQuoteOut () {
+		    	$(elem).html(function (_, oldText) { // Set the opacity of the div to 0 	and then change the html (flip it based on last value)
+			    }).animate({
+			        opacity: 0 // Animate opacity to 1 with a duration of 2 sec
+			    }, 1200, function() {
+			    	elem.innerHTML = text[counter];
+			    	counter++;
+		        	if(counter >= text.length) { counter = 0; }
+		        	fadeQuoteIn();
+				});
+		    }
+
+		    function fadeQuoteIn() {
+		       $(elem).html(function (_, oldText) { // Set the opacity of the div to 0 and then change the html (flip it based on last value)
+        			
+			    }).animate({
+			        opacity: 1 // Animate opacity to 1 with a duration of 2 sec
+			    }, 1200, function() {
+			    	setTimeout(fadeQuoteOut, 4000);
+			    }); 
+		    } 
+
+		    setTimeout(fadeQuoteOut, 4000);
+
+		    /*(function() {
+
+			var quotes = $("#changeText");
+			var quoteIndex = -1;
+
+
+			    function showNextQuote() {
+			        ++quoteIndex;
+			        quotes.eq(quoteIndex % quotes.length)
+			            .fadeIn(2000)
+			            .delay(2000)
+			            .fadeOut(2000, showNextQuote);
+			    }
+
+			    showNextQuote();
+
+			})();​*/
+	    });
+		</script>
+
 	</head>
 	<body>
 
@@ -37,9 +101,10 @@
 							<li class="current"><a href="index.html">Home</a></li>
 							<li><a href="impacts.html">Impacts</a></li>
 							<li><a href="laws.html">Laws</a></li>
-							<li><a href="noise.html">Noise in SF</a></li>
-							<li><a href="https://docs.google.com/a/berkeley.edu/forms/d/15XlNgLYGjaAz0OY-iixCj2Q2khDE7lZDwt7VWUv1hVs/viewform">Report</a></li>
-							<li><a href="resources.html">Resources</a></li>
+							<li><a href="noise.html">Solutions</a></li>
+							<li><a href="measurement.html">Measuring Noise</a></li>
+							<li><a href="https://docs.google.com/a/berkeley.edu/forms/d/15XlNgLYGjaAz0OY-iixCj2Q2khDE7lZDwt7VWUv1hVs/viewform">Report Noise Pollution</a></li>
+							<li><a href="resources.html">Additional Resources</a></li>
 						</ul>
 					</nav>
 
@@ -48,7 +113,7 @@
 		<!-- Banner -->
 			<section id="banner">
 				<header>
-					<h2>How does noise affect you?</h2>
+					<h2 id="changeText">Is city noise affecting your life?</h2>
 				</header>
 			</section>
 
@@ -58,8 +123,8 @@
 			<section class="wrapper style2">
 				<div class="container">
 					<header class="major">
-						<h2>San Francisco is a noisy place</h2>
-						<p>Cities are noisy, and urban noise has serious negative health impacts. How much noise is safe? San Francisco has laws limiting noise, but they often aren't understood, monitored, or enforced.</p>
+						<h2>People shouldn't have to live with unhealthy noise</h2>
+						<p>Cities are naturally noisy, but urban noise has serious negative health impacts. How much noise is safe? Do you understand your city's noise laws? Are your city's noise laws strong enough? Are the laws being monitored and enforced?</p>
 					</header>
 				</div>
 			</section>
@@ -68,27 +133,44 @@
 		<section id="cta" class="wrapper style3">
 			<div class="container">
 				<header>
-					<h2>Citizen noise complaints help the city react to noise. To file a noise complaint using our custom form, click the button below:</h2>
+					<h2>In order for the city to act, the citizens need to have their concerns heard. Do you have a noise concern? Use our noise pollution reporting tool to share your concerns with the city:</h2>
 				</header>
-				<a href="https://docs.google.com/a/berkeley.edu/forms/d/15XlNgLYGjaAz0OY-iixCj2Q2khDE7lZDwt7VWUv1hVs/viewform" class="button">Start</a>
+				<a href="https://docs.google.com/a/berkeley.edu/forms/d/15XlNgLYGjaAz0OY-iixCj2Q2khDE7lZDwt7VWUv1hVs/viewform" class="button start-button">Start</a>
 			</div>
 		</section>
 
 	<section class="wrapper style2">
 				<header class="major">
-					<h2>Get a detailed view of how and where noise affects residents.</h2>
+					<h2>See where noise is affecting people in San Francisco.</h2>
 				</header>
 				<div class="container">
 							<header>
-								<h3 class="map-title">The map below shows the locations of noise complaints sent to the over the past few years to San Francisco Department of Public Health</h3>
+								<h3 class="map-title">Locations of noise pollution reported to the City of San Francisco.</h3>
 							</header>
 							<div class="map">
-								<iframe title="Noise-related Health Complaints" scrolling="no" id="787649560" name="787649560" allowtransparency="true" class="igm" src="//mj89sp3sau2k7lj1eg3k40hkeppguj6j-a-sites-opensocial.googleusercontent.com/gadgets/ifr?url=http://www.gstatic.com/sites-gadgets/iframe/iframe.xml&amp;container=enterprise&amp;view=default&amp;lang=en&amp;country=ALL&amp;sanitize=0&amp;v=9facd724e6dd3ac5&amp;libs=core&amp;mid=56&amp;parent=https://sites.google.com/a/thecivicengine.org/noisehurts/monitor/sf-noise-inspections#up_scroll=no&amp;up_iframeURL=https://www.google.com/fusiontables/embedviz?q%3Dselect%2Bcol1%2Bfrom%2B1RI56cP-SVL2mwQMxDp3G_vvI3am2p-bko5PqHjhS%26viz%3DMAP%26h%3Dfalse%26lat%3D37.78304433231928%26lng%3D-122.44005621361089%26t%3D1%26z%3D13%26l%3Dcol1%26y%3D4%26tmplt%3D5%26hml%3DONE_COL_LAT_LNG&amp;st=e%3DAIHE3cDPMK0He6AY%252FFB0AHh2WC8EImFP7UUzZFkiSo7F0jwIhGH%252FRBGxKSfIeX1aJldlvaO5pROF5%252BgM5EN7yJMbmVLq4NaA7BzzK9W8rw8zhB8%252B4nOtExeNk3MDruuqSByJb%252FUgXwYk%26c%3Denterprise&amp;rpctoken=-5664415064807702887" frameborder="0" height="100%" width="100%"></iframe>
+								<iframe id="map_canvas1" width="100%" height="100%" scrolling="no" frameborder="no" src="https://www.google.com/fusiontables/embedviz?q=select+col1+from+1RI56cP-SVL2mwQMxDp3G_vvI3am2p-bko5PqHjhS&amp;viz=MAP&amp;h=false&amp;lat=37.768865433858&amp;lng=-122.42254675316167&amp;t=1&amp;z=14&amp;l=col1&amp;y=6&amp;tmplt=7&amp;hml=ONE_COL_LAT_LNG"></iframe>
 					</div>
 				</div>
 	</section>
 
 
+	<section class="wrapper style1">
+			<header class="major">
+				<h2>Who is responsible for noise?</h2>
+			</header>
+			<div class="image-container">
+				<a class="image flow-chart"><img src="images/department-flow-chart.jpg" alt="" /></a>
+			</div>
+	</section>
+
+	<section class="wrapper style2">
+			<header class="major">
+				<h2>What happens to noise complaints?</h2>
+			</header>
+			<div class="image-container">
+				<a class="image flow-chart"><img src="images/noise-report-flow-chart.png" alt="" /></a>
+			</div>
+	</section>
 
 
 		<!-- Posts -->
@@ -100,9 +182,9 @@
 					<div class="row">
 						<section class="6u 12u(narrower)">
 							<div class="box post">
-								<a href="impacts.html" class="image left"><img src="images/med-icon.png" alt="" /></a>
+								<a href="impacts.html" class="image left"><img src="images/health-icon.png" alt="" /></a>
 								<div class="inner">
-									<h3>Noise Impacts</h3>
+									<h3><a href="impacts.html">Noise Impacts</a></h3>
 									<p>Learn how chronic exposure of noise can negatively effect human health.</p>
 								</div>
 							</div>
@@ -111,7 +193,7 @@
 							<div class="box post">
 								<a href="laws.html" class="image left"><img src="images/law-icon.png" alt="" /></a>
 								<div class="inner">
-									<h3>Noise Laws</h3>
+									<h3><a href="laws.html">Noise Laws</a></h3>
 									<p>Learn about San Francisco's Noise Laws and how they affect citizens.</p>
 								</div>
 							</div>
@@ -120,19 +202,19 @@
 					<div class="row">
 						<section class="6u 12u(narrower)">
 							<div class="box post">
-								<a href="noise.html" class="image left"><img src="images/traffic-icon.jpg" alt="" /></a>
+								<a href="noise.html" class="image left"><img src="images/traffic-icon.png" alt="" /></a>
 								<div class="inner">
-									<h3>Noise Sources and Solutions</h3>
+									<h3><a href="noise.html">Urban Noise Solutions</a></h3>
 									<p>Noise comes from a lot of different places, and noise pollution can be addressed in many ways. Learn more here.</p>
 								</div>
 							</div>
 						</section>
 						<section class="6u 12u(narrower)">
 							<div class="box post">
-								<a href="resources.html" class="image left"><img src="images/resources-icon.png" alt="" /></a>
+								<a href="measurement.html" class="image left"><img src="images/speaker-icon.png" alt="" /></a>
 								<div class="inner">
-									<h3>Other Resources</h3>
-									<p>Click here for links to other noise resources, such as inexpensive noise monitor apps for your smartphone.</p>
+									<h3><a href="measurement.html">Taking a Noise Measurement</a></h3>
+									<p>Instructions on how to take a noise measurement using an inexpensive mobile phone app.</p>
 								</div>
 							</div>
 						</section>
@@ -143,74 +225,10 @@
 		<!-- Footer -->
 			
 			<div id="footer">
-			<!--
-				<div class="container">
-					<div class="row">
-						<section class="3u 6u(narrower) 12u$(mobilep)">
-							<h3>Links to Stuff</h3>
-							<ul class="links">
-								<li><a href="#">Mattis et quis rutrum</a></li>
-								<li><a href="#">Suspendisse amet varius</a></li>
-								<li><a href="#">Sed et dapibus quis</a></li>
-								<li><a href="#">Rutrum accumsan dolor</a></li>
-								<li><a href="#">Mattis rutrum accumsan</a></li>
-								<li><a href="#">Suspendisse varius nibh</a></li>
-								<li><a href="#">Sed et dapibus mattis</a></li>
-							</ul>
-						</section>
-						<section class="3u 6u$(narrower) 12u$(mobilep)">
-							<h3>More Links to Stuff</h3>
-							<ul class="links">
-								<li><a href="#">Duis neque nisi dapibus</a></li>
-								<li><a href="#">Sed et dapibus quis</a></li>
-								<li><a href="#">Rutrum accumsan sed</a></li>
-								<li><a href="#">Mattis et sed accumsan</a></li>
-								<li><a href="#">Duis neque nisi sed</a></li>
-								<li><a href="#">Sed et dapibus quis</a></li>
-								<li><a href="#">Rutrum amet varius</a></li>
-							</ul>
-						</section>
-						<section class="6u 12u(narrower)">
-							<h3>Get In Touch</h3>
-							<form>
-								<div class="row 50%">
-									<div class="6u 12u(mobilep)">
-										<input type="text" name="name" id="name" placeholder="Name" />
-									</div>
-									<div class="6u 12u(mobilep)">
-										<input type="email" name="email" id="email" placeholder="Email" />
-									</div>
-								</div>
-								<div class="row 50%">
-									<div class="12u">
-										<textarea name="message" id="message" placeholder="Message" rows="5"></textarea>
-									</div>
-								</div>
-								<div class="row 50%">
-									<div class="12u">
-										<ul class="actions">
-											<li><input type="submit" class="button alt" value="Send Message" /></li>
-										</ul>
-									</div>
-								</div>
-							</form>
-						</section>
-					</div>
-				</div>
-
-				 Icons 
-					<ul class="icons">
-						<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
-						<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-						<li><a href="#" class="icon fa-github"><span class="label">GitHub</span></a></li>
-						<li><a href="#" class="icon fa-linkedin"><span class="label">LinkedIn</span></a></li>
-						<li><a href="#" class="icon fa-google-plus"><span class="label">Google+</span></a></li>
-					</ul>
-				-->
 				<!-- Copyright -->
 					<div class="copyright">
 						<ul class="menu">
-							<li>&copy; The Civic Engine. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+							<li>&copy; The Civic Engine. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li><li>Banner Image: <a href="https://www.flickr.com/photos/robie06/">Roberto Ventre </a></li><li><div>Icons by <a href="http://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a>, <a href="http://www.scottdejonge.com" title="Scott de Jonge">Scott de Jonge</a>, and <a href="http://www.icomoon.io" title="Icomoon">Icomoon</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>, licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div></li>
 						</ul>
 					</div>
 
